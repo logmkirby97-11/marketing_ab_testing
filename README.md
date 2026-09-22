@@ -1,18 +1,14 @@
-# Marketing A/B Test: Ads vs. PSA
+# Marketing A/B Test Analysis - Ads vs. PSA
 
-## Business Question
+## Business Question & Objective
 
-An undisclosed company ran a display ad campaign and held back a smaller group of users who only saw a Public Service Announcement (PSA), in the same ad space. A classic A/B test setup which I wanted to dig into as if someone in the marketing department handed me the data and asked: 
-1. **Did the ads work?**
-2. **Is the difference in conversions real?**
-3. **Does the frequency of ads viewed matter?**
+An undisclosed company ran a display ad campaign and held back a smaller group of users who only saw a Public Service Announcement (PSA), in the same ad space. A classic A/B test setup which I, as an analyst, am tasked to dig into the data and determine if the ads worked, and if the difference in customer conversions were real or simply a factor of an increased frequency of ads viewed.
 
-Specifically, I set out to answer:
-
-Did the ad group convert at a meaningfully higher rate than the PSA group?
-Is that difference statistically significant, or could it just be noise given the sample size?
-Does conversion rate change with ad frequency, and if so what should I make of that?
-How many additional conversions can I reasonably attribute to the ads instead of PSAs?
+**Specifically, I set out to answer:**
+1. Did the ad group convert at a meaningfully higher rate than the PSA group?
+2. Is that difference statistically significant, or could it just be noise given the sample size?
+3. Does conversion rate change with ad frequency, and if so what does that mean?
+4. How many additional conversions can I reasonably attribute to the ads instead of PSAs?
 
 ## Dataset
 
@@ -37,7 +33,7 @@ All code is in `notebooks/02_marketing_AB_query_notebook.ipynb`.
 - Ad group: 14,423 conversions out of 564,577 users (2.55%)
 - PSA group: 420 conversions out of 23,524 users (1.79%)
 
-A gap like that could simply be sample noise, especially with a vast difference in the group size. 
+A gap like that could simply be sample noise, especially with a vast difference in the group size. It's best to check further to see if the difference is "real".
 
 ### 2. The difference is statistically significant
 Running a two-proportion z-test gave a z-stat of 7.37 and a p-value effectively at 0 (well under 0.001). Meaning, the gap is unlikely to be random chance and the ad group truly does convert at a higher rate than the PSA group.
@@ -59,17 +55,17 @@ A p-value alone doesn't tell us the effect is meaningful, just whether it's dete
 
 This is over 100x jump between the lowest and highest buckets. My honest take on this is that it's probably not simply "more ads make people buy more." It's likely that users who were already more engaged or further along in the buying process browsed more, and with that they got served more ad impressions as a result. So the ad exposure could be a result of engagement as much as a cause of conversion. I don't think this dataset at its core lets me tell those two explanations apart, so I'm not treating this as proof that blasting people with 100+ ads is a strategy. It's a pattern worth testing directly, not a conclusion to act on yet in this specific project and dataset.
 
-## The Impact
+## The Business Impact
 
-This dataset doesn't include order value or revenue, so I'm quantifying the impact in conversions rather than dollars.
+This dataset doesn't include order value or revenue, so I'm quantifying the impact in conversions themselves rather than dollars.
 
 Using the confirmed rate difference, the ad campaign likely drove somewhere between ~3,300 and ~5,300 additional conversions compared to what I'd expect if every user had seen the PSA instead.
 
 ## Recommendations
 
-1. Keep running ads over PSAs for this kind of placement. The lift is statistically significant and large enough to matter, not just detectable in a huge sample.
+1. Keep running ads over PSAs for this kind of placement. The lift is statistically significant and large enough to matter.
 
-2. Don't treat the ad frequency pattern as a target to chase quite yet. The correlation between more ad exposure and higher conversion is strong, but you can't rule out that it's simply user engagement driving both. Before recommending a specific frequency (e.g., "show every user 50+ ads"), I'd suggest another experiment dedicated to uncovering the insights into the varying ad frequencies.
+2. Don't treat the ad frequency pattern as a target to chase quite yet. The correlation between more ad exposure and higher conversion is strong, but you can't rule out that it's simply user engagement driving both. Before recommending a specific frequency, I'd suggest another experiment dedicated to uncovering the insights into the varying ad frequencies.
 
 3. Use the conversion range (3,300-5,300) as a starting point for a cost/benefit conversation, once there's an actual cost-per-ad and value-per-conversion to weigh against it. That's the next step to turn this from "ads work" into "here's what ads are worth."
 
